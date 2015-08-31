@@ -19,6 +19,9 @@
   <script src="spec/chatterboxSpec.js"></script>
 
   <!-- Source files -->
+  <script src="client/bower_components/underscore/underscore.js"></script>
+  <script src="client/bower_components/uri.js/src/URI.js"></script>
+  <script src="client/bower_components/stringjs/dist/string.js"></script>
   <script src="client/scripts/app.js"></script>
 
 </head>
@@ -38,7 +41,7 @@
       <input type="text" name="message" id="message"/>
       <input type="submit" name="submit" class="submit"/>
     </form>
-    <div id="chats"></div>
+    <div id="chats"><ul id="messages"></ul></div>
   </div>
 
 </div>
