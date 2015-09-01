@@ -10,29 +10,50 @@
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="bower_components/uri.js/src/URI.js"></script>
     <script src="bower_components/stringjs/dist/string.js"></script>
+
+    <link rel="stylesheet" href="bower_components/material-design-lite/material.min.css">
+    <script src="bower_components/material-design-lite/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <!-- your scripts -->
     <script src="env/config.js"></script>
     <script src="scripts/app.js"></script>
   </head>
   <body>
-    <div id="main">
-      <h1>chatterbox</h1>
-      <!-- Your HTML goes here! -->
-      <form id="message">
-        <input type="text" required placeholder="Type your message here!">
-        <input type="submit" value="Send Message">
-      </form>
-      <label for="roomSelect">Rooms:</label>
-      <select id="roomSelect" style="width: 50%;">
-        <option value="all">All</option>
-      </select>
-      <form id="roomName">
-        <input type="text" required placeholder="Enter a new room name">
-        <input type="submit" value="Create New Room">
-      </form>
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--4-col"></div>
+      <div id="main" class="mdl-cell mdl-cell--4-col">
+        <div class="mdl-card mdl-shadow--2dp" style="width: 100%;">
+          <div class="mdl-card__title">
+            <h1 class="mdl-card__title-text">chatterbox</h1>
+          </div>
+          <div class="mdl-card__supporting-text">
+            <label for="roomSelect">Rooms:</label>
+            <select id="roomSelect" style="width: 50%;">
+              <option value="all">All</option>
+            </select>
+            <form id="roomName">
+              <div class="mdl-textfield mdl-js-textfield" >
+                <input class="mdl-textfield__input" type="text" required placeholder="Enter a new room name">
+              </div>
+              <input type="submit" value="Create New Room" class="mdl-button mdl-js-button mdl-button--raised" style="margin-left:10px;">
+            </form>
+            <form id="message">
+              <div class="mdl-textfield mdl-js-textfield">
+                <input class="mdl-textfield__input" type="text" required placeholder="Type your message here!">
+              </div>
+              <input type="submit" value="Send Message" class="mdl-button mdl-js-button mdl-button--raised" style="margin-left:10px;">
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="mdl-cell mdl-cell--4-col"></div>
     </div>
-    <div id="chats">
-      <ul id="messages"></ul>
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--4-col"></div>
+      <div id="chats" class="mdl-cell mdl-cell--4-col mdl-shadow--2dp">
+        <ul id="messages"></ul>
+      </div>
+      <div class="mdl-cell mdl-cell--4-col"></div>
     </div>
   </body>
 </html>

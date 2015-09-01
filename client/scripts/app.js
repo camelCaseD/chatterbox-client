@@ -62,7 +62,7 @@ App.prototype.clearMessages = function() {
 
 App.prototype.addMessage = function(message) {
   if (message.roomname === this.currentRoom || this.currentRoom === 'all') {
-    var $li = $('<li><span id="username"></span>:&nbsp;<span id="body"></span></li>');
+    var $li = $('<li><span id="username"></span>:<br /><span id="body"></span></li>');
     //using stringjs lib to escape html comments
     $li.children('#username').text(this.sanitizeString(message.username));
     $li.children('#body').text(this.sanitizeString(message.text));

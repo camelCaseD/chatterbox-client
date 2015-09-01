@@ -6,7 +6,8 @@
     "underscore": "~1.7.0",
     "jquery": "~2.1.1",
     "uri.js": "~1.16.0",
-    "stringjs": "~3.3.0"
+    "stringjs": "~3.3.0",
+    "material-design-lite": "~1.0.4"
   },
   "ignore": [
     "**/.*",
