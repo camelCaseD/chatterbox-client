@@ -3,6 +3,7 @@ var App = function() {
   this.server = 'https://api.parse.com/1/classes/chatterbox';
   this.rooms = [];
   this.currentRoom = 'all';
+  this.friends = [];
 };
 
 App.prototype.init = function() {
@@ -47,7 +48,8 @@ App.prototype.updateRooms = function(data) {
       this.rooms.push(message.roomname);
       
       //using stringjs lib to escape html comments
-      var $option = $('<option value="'+S(message.roomname).escapeHTML().s+'">' + S(message.roomname).escapeHTML().s + '</option>');
+      var roomname = this.sanitizeString(message.roomname);
+      var $option = $('<option value="'+roomname+'">' + roomname + '</option>');
       $('#roomSelect').append($option);      
     }
   }, this);
@@ -62,10 +64,16 @@ App.prototype.addMessage = function(message) {
   if (message.roomname === this.currentRoom || this.currentRoom === 'all') {
     var $li = $('<li><span id="username"></span>:&nbsp;<span id="body"></span></li>');
     //using stringjs lib to escape html comments
-    message.username = typeof message.username === 'string' ? message.username : '';
-    message.text = typeof message.text === 'string' ? message.text : '';
-    $li.children('#username').text(S(message.username).escapeHTML().s);
-    $li.children('#body').text(S(message.text).escapeHTML().s);
+    $li.children('#username').text(this.sanitizeString(message.username));
+    $li.children('#body').text(this.sanitizeString(message.text));
+    $li.children('span#username').on('click', function(e) {
+      app.addFriend.call(app, e);
+    });
+
+    if (this.friends.indexOf(this.sanitizeString(message.username)) !== -1) {
+      $li.children('#username').toggleClass('friend');
+    }
+
     $('#messages').append($li);
   }
 };
@@ -90,23 +98,41 @@ App.prototype.addRoom = function(roomname) {
   $('#roomSelect').val(app.currentRoom);  
 }
 
+App.prototype.sanitizeString = function(string) {
+  var clean = typeof string === 'string' ? string : '';
+  return S(clean).escapeHTML().s;
+};
+
+App.prototype.handleSubmit = function(e) {
+  e.preventDefault();
+
+  app.send({
+    username: app.username,
+    text: $('#main form#message input[type=text]').val(),
+    roomname: app.currentRoom
+  });
+
+  $('#main form#message input[type=text]').val('');
+};
+
+App.prototype.addFriend = function(e) {
+  var friend = $(e.target).text();
+  console.log(friend);
+
+  if (this.friends.indexOf(friend) === -1) {
+    this.friends.push(friend);
+  } else {
+    this.friends.splice(this.friends.indexOf(friend), 1);
+  }
+};
+
 /*Initializing*/
 var app = new App();
 app.init();
 
 /*Event Listeners*/
 $(document).ready(function() {
-  $('#main form#message').on("submit", function(e) {
-    e.preventDefault();
-
-    app.send({
-      username: app.username,
-      text: $('#main form#message input[type=text]').val(),
-      roomname: app.currentRoom
-    });
-
-    $('#main form#message input[type=text]').val('');
-  });
+  $('#main form#message').on("submit", app.handleSubmit);
 
   $('#roomSelect').on('change', function() {
     app.currentRoom = $(this).val();
@@ -116,5 +142,5 @@ $(document).ready(function() {
     e.preventDefault();
 
     app.addRoom($('#main form#roomName input[type=text]').val());
-  })
+  });
 });
